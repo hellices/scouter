@@ -2,8 +2,10 @@
 FROM registry.access.redhat.com/ubi8/openjdk-11:latest AS build
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /tmp
 
+# Ensure the build is run as root (default in most base images)
+USER root
 # Copy the pom.xml and download dependencies
 COPY . .
 
@@ -11,6 +13,9 @@ COPY . .
 RUN mvn -Dmaven.test.skip=true clean install
 RUN mvn -Dmaven.test.skip=true -f ./scouter.agent.java/pom.xml -Pjava-legacy clean package
 RUN mvn -Dmaven.test.skip=true -f ./scouter.deploy/pom.xml clean package
+
+# Set permissions to 777 for the target directories
+RUN chmod -R 777 /app
 
 
 # Step 2: Prepare the runtime image using UBI8 with JRE
