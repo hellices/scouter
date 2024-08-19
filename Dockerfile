@@ -6,12 +6,10 @@ WORKDIR /server
 
 # Copy the Scouter server files into the container
 COPY ./server /server
+COPY ./webapp /webapp
 
 # Expose the necessary ports (adjust according to Scouter's config)
 EXPOSE 6100 6180
 
-# Ensure the startup script has execute permissions
-RUN chmod +x ./startup.sh
-
 # Command to start the Scouter server
-CMD ["./startup.sh"]
+ENTRYPOINT ["java", "-classpath", "./scouter-server-boot.jar", "scouter.boot.Boot", "./lib"]
