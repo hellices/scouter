@@ -1,2 +1,0 @@
-# execute the command below for patching the scouter client.app file
-xattr -cr ./scouter.client.app

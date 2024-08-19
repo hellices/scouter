@@ -1,12 +1,12 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Image to GHCR
 
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/scouter-server-with-zipkin:latest
+          tags: ghcr.io/${{ github.repository_owner }}/scouter-server:latest
 
       - name: Image digest
         run: echo ${{ steps.build.outputs.digest }}
