@@ -1,8 +1,11 @@
-# Step 1: Build the Scouter project
-FROM maven:3.8.5-openjdk-11-slim AS build
+# Step 1: Build the Scouter project using UBI8 with JDK
+FROM registry.access.redhat.com/ubi8/openjdk-11:latest AS build
 
 # Set the working directory
 WORKDIR /app
+
+# Install Maven
+RUN yum install -y maven && yum clean all
 
 # Copy the pom.xml and download dependencies
 COPY . .
@@ -12,8 +15,10 @@ RUN mvn -Dmaven.test.skip=true clean install
 RUN mvn -Dmaven.test.skip=true -f ./scouter.agent.java/pom.xml -Pjava-legacy clean package
 RUN mvn -Dmaven.test.skip=true -f ./scouter.deploy/pom.xml clean package
 
-# Step 2: Prepare the runtime image
-FROM openjdk:11-jre-slim
+
+# Step 2: Prepare the runtime image using UBI8 with JRE
+FROM registry.access.redhat.com/ubi8/openjdk-11-runtime:latest
+
 
 # Set the working directory
 WORKDIR /scouter
