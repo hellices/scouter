@@ -4,9 +4,6 @@ FROM registry.access.redhat.com/ubi8/openjdk-11:latest AS build
 # Set the working directory
 WORKDIR /app
 
-# Install Maven
-RUN yum install -y maven && yum clean all
-
 # Copy the pom.xml and download dependencies
 COPY . .
 
