@@ -2,10 +2,10 @@
 FROM openjdk:11-jre-slim
 
 # Set the working directory inside the container
-WORKDIR /scouter/server
+WORKDIR /server
 
 # Copy the Scouter server files into the container
-COPY ./scouter/server /scouter/server
+COPY ./server /server
 
 # Expose the necessary ports (adjust according to Scouter's config)
 EXPOSE 6100 6180
