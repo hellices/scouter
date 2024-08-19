@@ -2,9 +2,10 @@
 FROM maven:3.8.5-openjdk-11-slim AS build
 
 # Set the working directory
+WORKDIR /app
 
 # Copy the pom.xml and download dependencies
-RUN mvn dependency:go-offline -B
+COPY . .
 
 # Copy the source code and build the project
 RUN mvn -Dmaven.test.skip=true clean install
@@ -18,7 +19,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /scouter
 
 # Copy the built Scouter server files from the build stage
-COPY --from=build /scouter-deploy/target /scouter
+COPY --from=build /app/scouter-deploy/target /scouter
 
 # Download the zipkin-scouter-storage plugin
 RUN wget https://github.com/scouter-project/zipkin-scouter-storage/releases/download/v0.0.3/zipkin-scouter-storage-0.0.3.jar -P /scouter/lib
