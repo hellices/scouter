@@ -6,7 +6,6 @@ WORKDIR /server
 
 # Copy the Scouter server files into the container
 COPY ./server /server
-COPY ./webapp /webapp
 
 # Expose the necessary ports (adjust according to Scouter's config)
 EXPOSE 6100 6180
